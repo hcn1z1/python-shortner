@@ -1,17 +1,19 @@
 import json,time,flask
 from func.database import Connecter
-
+from .apis import AntibotApis
 class BannedStand:
     def __init__(self) -> None:
-        self.botHeaders = [instance for data in json.loads(open("database/crawler-user-agents.json", "r").read()) for instance in data["instances"]]
+        self.botHeaders:list[str] = [instance for data in json.loads(open("database/crawler-user-agents.json", "r").read()) for instance in data["instances"]]
         self.connection:Connecter = None
         self.bannedIpAddrs:list = None
         self.suspendedIpAddrs:list[tuple] = None
+        self.antibotApp:AntibotApis = AntibotApis()
 
     def setConnection(self,conn:Connecter):
         self.connection:Connecter = conn
         self.setBannedIps()
         self.setSuspendedIps()
+
     def setBannedIps(self):
         self.bannedIpAddrs = list(self.connection.execute("SELECT * FROM BANNED").fetchall())
     
@@ -50,5 +52,6 @@ class BannedStand:
         bannedIp = self.checkBannedIp(request.remote_addr)
         suspendedIp = self.checkSuspendedIp(request.remote_addr)
         userAgentDetection = self.checkUserAgent(request.headers.get('User-Agent'))
+        botDetection = self.antibotApp.initializeAll(request.remote_addr)
         if not userAgentDetection : self.addBannedIp(request.remote_addr)
-        return javascriptSupport and bannedIp and suspendedIp and userAgentDetection
+        return javascriptSupport and bannedIp and suspendedIp and userAgentDetection and botDetection
