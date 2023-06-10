@@ -1,0 +1,2 @@
+variables:
+  RAILWAY_START_CMD: gunicorn main:app
