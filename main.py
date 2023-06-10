@@ -1,26 +1,38 @@
 from flask import Flask,render_template,request,redirect
-from func import database
+from func.database import *
 from antibot.bot import BannedStand
 import json
 
 app = Flask(__name__)
-db = database.connecter("database/database.db")
+db = Connecter("database/database.db")
 antibot = BannedStand()
 antibot.setConnection(db)
 
 @app.route("/<identificator>",methods=["GET","POST"])
 def redirecter(identificator):
     if request.method =="POST":
-        data = json.loads(request.get_data().decode("utf-8"))
         try:
-            if data["javascript"] == True and antibot.checkSuspendedIp(): pass
-        except:
+            print(db.getURL(identificator))
+            if antibot.checkRequest(request):
+                return redirect(db.getURL(identificator))
+            else:
+                return "<title>No redirection</title>"
+                
+        except Exception as e:
+            print("Error !" , e)
             pass
-    return redirect("https://facebook.com")
+    return render_template("index.html")
 
 @app.route("/api/shortner",methods=["POST"])
-def generator():
-    pass
-    
+def shortner():
+    url = json.loads(request.get_data().decode("utf-8"))["url"]
+    return db.generate(url) # returning identificator
+
+@app.route("/error")
+def notfound():
+    return "Page not found"
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True, port=8100, ssl_context='adhoc')
+    app.run(host="127.0.0.1",debug=True)
+    #app.run(host="0.0.0.0",debug=True, port=8100, ssl_context='adhoc')

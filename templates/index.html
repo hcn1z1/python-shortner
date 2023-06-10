@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Redirect Example</title>
+</head>
+<body>
+  <script>
+    // Perform the JavaScript verification
+    var isJavascriptSupported = true; // Replace with your actual verification logic
+    
+    // Submit the verification result to the server
+    var form = document.createElement('form');
+    form.action = window.location.pathname;
+    form.method = "POST";
+    
+    var input = document.createElement('input');
+    input.type = "hidden";
+    input.name = "javascript_supported";
+    input.value = isJavascriptSupported;
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    
+    // Auto-submit the form
+    form.submit();
+  </script>
+  <noscript>javascript not supported by this browser</noscript>
+</body>
+</html>
