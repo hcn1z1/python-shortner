@@ -1,7 +1,7 @@
 from flask import Flask,render_template,request,redirect
 from func.database import *
 from antibot.bot import BannedStand
-from gevent.pywsgi import WSGIServer
+from waitress import serve
 import json
 
 app = Flask(__name__)
@@ -35,6 +35,4 @@ def notfound():
 
 
 if __name__ == "__main__":
-    from waitress import serve
-    http_server = WSGIServer(('0.0.0.0', 8100), app)
-    http_server.serve_forever()
+    serve(app, host="0.0.0.0", port=8100)
