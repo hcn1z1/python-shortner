@@ -1,5 +1,7 @@
 import requests
 import os,json
+import dotenv
+dotenv.load_dotenv()
 
 class AntibotApis:
     def initializeAll(self,ipAddr) -> bool:

@@ -1,0 +1,26 @@
+{
+    "code": "VbbBEh",
+    "links": [
+        "https://www.stopforumspam.com/usage",
+        "https://www.instagram.com/direct/inbox/"
+    ],
+    "creation-time": "2023-06-11 02:57:38",
+    "actions": [
+        {
+            "code": "VbbBEh",
+            "ip": "127.0.0.1",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43",
+            "time": "2023-06-11 03:13:21",
+            "bot": false,
+            "click-id": 1
+        },
+        {
+            "code": "VbbBEh",
+            "ip": "127.0.0.1",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43",
+            "time": "2023-06-11 03:12:58",
+            "bot": false,
+            "click-id": 0
+        }
+    ]
+}
