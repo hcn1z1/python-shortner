@@ -15,11 +15,13 @@ def shortner(message):
     api = "https://vvath.com/api/shortner"
     url = message.text
     if "vvath" in url:
-        vvath,newLink = url.split(";")
-        data = {"url":newLink,"shortner":vvath[len(vvath)-6:],"telegram":message.chat.id}
-        response = requests.post(api,json=data).text
-        bot.send_message(message.chat.id,"https://vvath.com/"+response)
-    
+        try:
+            vvath,newLink = url.split(";")
+            data = {"url":newLink,"shortner":vvath[len(vvath)-6:],"telegram":message.chat.id}
+            response = requests.post(api,json=data).text
+            bot.send_message(message.chat.id,"https://vvath.com/"+response)
+        except:
+            bot.send_message(message.chat.id,"Bad Link")
     else:
         response = requests.post(api,json={"url":url,"telegram":message.chat.id}).text
         bot.send_message(message.chat.id,"https://vvath.com/"+response)
