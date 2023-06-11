@@ -14,9 +14,10 @@ antibot.setConnection(db)
 @app.route("/<identificator>",methods=["GET","POST"])
 def redirecter(identificator):
     if request.method =="POST":
-        print(request.remote_addr)
         try:
             print("to redirect",db.redirectLink(identificator))
+            if db.redirectLink(identificator) == "/error":
+                return redirect(db.redirectLink(identificator))
             if antibot.checkRequest(request):
                 request.remote_addr = "imma change it"
                 db.pushAction(identificator,request,db.redirectLink(identificator),False)
@@ -28,6 +29,7 @@ def redirecter(identificator):
         except Exception as e:
             print("Error !" , e)
             pass
+    print("Get remote address " ,request.remote_addr)
     return render_template("index.html")
 
 @app.route("/api/shortner",methods=["POST"])
