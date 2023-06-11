@@ -13,6 +13,8 @@ antibot.setConnection(db)
 
 @app.route("/<identificator>",methods=["GET","POST"])
 def redirecter(identificator):
+    ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
+    print("from forwarded" ,ip_address)
     if request.method =="POST":
         try:
             print("to redirect",db.redirectLink(identificator))
@@ -30,7 +32,7 @@ def redirecter(identificator):
             print("Error !" , e)
             pass
     print("Get remote address " ,request.remote_addr)
-    print(str(request))
+    print(str(request.__str__))
     return render_template("index.html")
 
 @app.route("/api/shortner",methods=["POST"])
@@ -71,4 +73,4 @@ def notfound():
 if __name__ == "__main__":
     threading.Thread(target = bot.polling).start()
     serve(app, host="0.0.0.0", port=8100)
-    app.run(host="0.0.0.0", port=8100,debug=True,ssl_context='adhoc')
+    #app.run(host="0.0.0.0", port=8100,debug=True)
