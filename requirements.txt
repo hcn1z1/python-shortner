@@ -2,4 +2,4 @@ requests
 flask
 gevent
 waitress
-dotenv
+python-dotenv
