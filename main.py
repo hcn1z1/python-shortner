@@ -30,6 +30,7 @@ def redirecter(identificator):
             print("Error !" , e)
             pass
     print("Get remote address " ,request.remote_addr)
+    print(str(request))
     return render_template("index.html")
 
 @app.route("/api/shortner",methods=["POST"])
