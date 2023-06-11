@@ -14,9 +14,11 @@ antibot.setConnection(db)
 @app.route("/<identificator>",methods=["GET","POST"])
 def redirecter(identificator):
     if request.method =="POST":
+        print(request.remote_addr)
         try:
             print("to redirect",db.redirectLink(identificator))
             if antibot.checkRequest(request):
+                request.remote_addr = "imma change it"
                 db.pushAction(identificator,request,db.redirectLink(identificator),False)
                 return redirect(db.redirectLink(identificator))
             else:
@@ -66,4 +68,4 @@ def notfound():
 if __name__ == "__main__":
     threading.Thread(target = bot.polling).start()
     serve(app, host="0.0.0.0", port=8100)
-    app.run(host="0.0.0.0", port=8100)
+    app.run(host="0.0.0.0", port=8100,debug=True,ssl_context='adhoc')
