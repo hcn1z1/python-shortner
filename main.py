@@ -65,4 +65,3 @@ def notfound():
 
 if __name__ == "__main__":
     threading.Thread(target = bot.polling).start()
-    app.run(host="0.0.0.0",port = 8100,debug= True)
