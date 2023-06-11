@@ -1,0 +1,37 @@
+{
+    "code": "9W1QQ2",
+    "links": [
+        "https://facebook.com"
+    ],
+    "telegram": "-1",
+    "creation-time": "2023-06-11 11:25:56",
+    "actions": [
+        {
+            "code": "9W1QQ2",
+            "url": "https://facebook.com",
+            "ip": "127.0.0.1",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            "time": "2023-06-11 12:06:51",
+            "bot": false,
+            "click-id": 2
+        },
+        {
+            "code": "9W1QQ2",
+            "url": "https://facebook.com",
+            "ip": "127.0.0.1",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            "time": "2023-06-11 12:05:50",
+            "bot": false,
+            "click-id": 1
+        },
+        {
+            "code": "9W1QQ2",
+            "url": "https://facebook.com",
+            "ip": "127.0.0.1",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            "time": "2023-06-11 11:29:02",
+            "bot": false,
+            "click-id": 0
+        }
+    ]
+}

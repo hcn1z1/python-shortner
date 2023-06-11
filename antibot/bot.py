@@ -1,6 +1,7 @@
 import json,time,flask
 from func.database import Connecter
 from .apis import AntibotApis
+
 class BannedStand:
     def __init__(self) -> None:
         self.botHeaders:list[str] = [instance for data in json.loads(open("database/crawler-user-agents.json", "r").read()) for instance in data["instances"]]

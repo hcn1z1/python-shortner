@@ -3,3 +3,4 @@ flask
 gevent
 waitress
 python-dotenv
+pyTelegramBotAPI
