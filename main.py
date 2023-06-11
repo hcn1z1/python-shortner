@@ -65,3 +65,4 @@ def notfound():
 
 if __name__ == "__main__":
     threading.Thread(target = bot.polling).start()
+    serve(app)
