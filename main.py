@@ -1,6 +1,7 @@
 from flask import Flask,render_template,request,redirect
 from func.core import Core
 from antibot.bot import BannedStand
+from func.generater import valideUrl
 from telegram.bridge import bot
 import threading
 from waitress import serve
@@ -14,14 +15,14 @@ antibot.setConnection(db)
 @app.route("/<identificator>",methods=["GET","POST"])
 def redirecter(identificator):
     ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
-    print("from forwarded" ,ip_address)
+    request.remote_addr = ip_address
     if request.method =="POST":
         try:
             print("to redirect",db.redirectLink(identificator))
             if db.redirectLink(identificator) == "/error":
                 return redirect(db.redirectLink(identificator))
             if antibot.checkRequest(request):
-                request.remote_addr = "imma change it"
+                
                 db.pushAction(identificator,request,db.redirectLink(identificator),False)
                 return redirect(db.redirectLink(identificator))
             else:
@@ -30,15 +31,15 @@ def redirecter(identificator):
                 
         except Exception as e:
             print("Error !" , e)
-            pass
-    print("Get remote address " ,request.remote_addr)
-    print(str(request.__str__))
+
     return render_template("index.html")
 
 @app.route("/api/shortner",methods=["POST"])
 def shortner():
     data = json.loads(request.get_data().decode("utf-8"))
     url = data["url"]
+    if not valideUrl(url):
+        return "{'message':'not a valide url !'}",500
     try: shortner = data["shortner"]
     except: shortner = None
     try: telegram = data["telegram"]
