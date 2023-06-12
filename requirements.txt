@@ -4,3 +4,4 @@ gevent
 waitress
 python-dotenv
 pyTelegramBotAPI
+dnspython

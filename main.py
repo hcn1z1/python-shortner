@@ -6,27 +6,32 @@ from telegram.bridge import bot
 import threading
 from waitress import serve
 import json
+from func.customthread import Worker
 
 app = Flask(__name__)
 db = Core("database/database.db")
 antibot = BannedStand()
 antibot.setConnection(db)
 
+@app.route("/")
+def main():
+    return render_template("main.html")
+
 @app.route("/<identificator>",methods=["GET","POST"])
 def redirecter(identificator):
     ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
     request.remote_addr = ip_address
+    request.remote_addr = "192.178.10.72"
     if request.method =="POST":
         try:
             print("to redirect",db.redirectLink(identificator))
             if db.redirectLink(identificator) == "/error":
                 return redirect(db.redirectLink(identificator))
             if antibot.checkRequest(request):
-                
-                db.pushAction(identificator,request,db.redirectLink(identificator),False)
+                Worker(target = db.pushAction,args=(identificator,request,db.redirectLink(identificator),False,)).start()
                 return redirect(db.redirectLink(identificator))
             else:
-                db.pushAction(identificator,request,True)
+                Worker(target = db.pushAction,args=(identificator,request,"/error",True,))
                 return "<title>No redirection</title>"
                 
         except Exception as e:

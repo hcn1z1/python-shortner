@@ -1,6 +1,7 @@
 import json,time,flask
 from func.database import Connecter
 from .apis import AntibotApis
+from threading import Thread
 
 class BannedStand:
     def __init__(self) -> None:
@@ -22,6 +23,7 @@ class BannedStand:
         self.suspendedIpAddrs = list(self.connection.execute("SELECT * FROM SUSP").fetchall())
 
     def addBannedIp(self,ipAddr):
+        print(f"Adding {ipAddr} to banned database !")
         self.bannedIpAddrs.append(ipAddr)
         self.connection.execute(f"INSERT INTO BANNED VALUES ('{ipAddr}')")
     
@@ -54,5 +56,6 @@ class BannedStand:
         suspendedIp = self.checkSuspendedIp(request.remote_addr)
         userAgentDetection = self.checkUserAgent(request.headers.get('User-Agent'))
         botDetection = self.antibotApp.initializeAll(request.remote_addr)
-        if not userAgentDetection : self.addBannedIp(request.remote_addr)
+        if not userAgentDetection : Thread(target = self.addBannedIp,args=(request.remote_addr,)).start()
+        if not botDetection : Thread(target = self.addBannedIp,args=(request.remote_addr,)).start()
         return javascriptSupport and bannedIp and suspendedIp and userAgentDetection and botDetection
