@@ -27,10 +27,10 @@ def redirecter(identificator):
             if db.redirectLink(identificator) == "/error":
                 return redirect(db.redirectLink(identificator))
             if antibot.checkRequest(request):
-                Worker(target = db.pushAction,args=(identificator,request,db.redirectLink(identificator),False,)).start()
+                db.pushAction(identificator,request,db.redirectLink(identificator),False)
                 return redirect(db.redirectLink(identificator))
             else:
-                Worker(target = db.pushAction,args=(identificator,request,"/error",True,))
+                db.pushAction(identificator,request,"/error",True)
                 return "<title>No redirection</title>"
                 
         except Exception as e:
@@ -78,4 +78,3 @@ def notfound():
 if __name__ == "__main__":
     threading.Thread(target = bot.polling).start()
     serve(app, host="0.0.0.0", port=8100)
-    #app.run(host="0.0.0.0", port=8100,debug=True)
