@@ -21,7 +21,6 @@ def main():
 def redirecter(identificator):
     ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
     request.remote_addr = ip_address
-    request.remote_addr = "192.178.10.72"
     if request.method =="POST":
         try:
             print("to redirect",db.redirectLink(identificator))
