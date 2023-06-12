@@ -31,7 +31,7 @@ class Link:
         click["user-agent"] = request.headers.get('User-Agent')
         click["time"]:str = datetime.datetime.fromtimestamp(time.time()).strftime("%Y-%m-%d %H:%M:%S")
         click["bot"] = is_bot
-        click["click-id"] = len([ip["ip"] in informations["actions"] for ip in informations["actions"] if ip["ip"] == click["ip"]])
+        click["click-id"] = len([code["code"] in informations["actions"] for code in informations["actions"] if code["code"] == click["code"]])
         informations["actions"].insert(0,click)
         json.dump(informations,open(name,"w+"),indent=4)
         self.sendTelegram(click,informations["telegram"])
