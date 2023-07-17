@@ -80,6 +80,3 @@ def get_info(short:str,click_id:str):
 def notfound():
     return "Page not found"
 
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True, port=8100, ssl_context='adhoc')

@@ -47,7 +47,7 @@ def handle_message(message):
 
 
 def handle_links(message):
-    api = "https://127.0.0.1:8100/api/shortner"
+    api = "https://vs-s.link/api/shortner"
     url = message.text
     print("here")
     if "vs-s" in url:
