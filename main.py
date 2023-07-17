@@ -1,5 +1,6 @@
 from flask import Flask,render_template,request,redirect
 from func.core import Core
+from func.database import Connecter
 from antibot.bot import BannedStand
 from func.generater import valideUrl
 from telegram.bridge import bot
@@ -9,9 +10,14 @@ import json
 from func.customthread import Worker
 
 app = Flask(__name__)
-db = Core("database/database.db")
+db = Core()
+database = Connecter("database/database.db")
 antibot = BannedStand()
-antibot.setConnection(db)
+antibot.setConnection(database)
+
+try: threading.Thread(target = bot.polling).start()
+except: pass
+
 
 @app.route("/")
 def main():
@@ -76,5 +82,4 @@ def notfound():
 
 
 if __name__ == "__main__":
-    threading.Thread(target = bot.polling).start()
-    serve(app, host="0.0.0.0", port=8100)
+    app.run(host="0.0.0.0",debug=True, port=8100, ssl_context='adhoc')

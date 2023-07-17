@@ -1,29 +1,33 @@
 import time,json,datetime
 from flask import request
 from telegram.bridge import communicate
-class Link:
-    def __init__(self) -> None:
-        self.folderPath:str = "database/links/"
+import requests
 
+class Link:
+   
+    def __init__(self) -> None:
+        self.url:str = "https://hcn1.net/api/v1/shortner"
+        self.headers = {
+            "Content-Type":"application/json"
+        }
     def initializeLink(self,shortner,telegram = -1):
-        name = f"{self.folderPath}{shortner}.json"
+        print("at least you are here?")
+        url = f"{self.url}"
         informations:dict = {}
         informations["code"]:str = shortner
         informations["links"]:list = []
         informations["telegram"]:list = str(telegram)
         informations["creation-time"]:str = datetime.datetime.fromtimestamp(time.time()).strftime("%Y-%m-%d %H:%M:%S")
         informations["actions"]:list[dict] = []
-        json.dump(informations,open(name,"w+"),indent=4)
+        print(requests.post(url,json = informations).text)
 
     def pushLink(self,link:str,shortner:str):
-        name = f"{self.folderPath}{shortner}.json"
-        informations:dict = json.load(open(name,"r"))
-        if link not in informations["links"] : informations["links"].append(link)
-        json.dump(informations,open(name,"w+"),indent=4)
+        url = f"{self.url}/{shortner}"
+        print(requests.post(url,json={"link":link}).text)
 
     def pushAction(self,shortner:str,request:request,redirection,is_bot:bool):
-        name = f"{self.folderPath}{shortner}.json"
-        informations:dict = json.load(open(name,"r"))
+        print("pushing actions")
+        url = f"{self.url}/{shortner}"
         click:dict = {}
         click["code"]:str = shortner
         click["url"]:str = redirection
@@ -31,22 +35,24 @@ class Link:
         click["user-agent"] = request.headers.get('User-Agent')
         click["time"]:str = datetime.datetime.fromtimestamp(time.time()).strftime("%Y-%m-%d %H:%M:%S")
         click["bot"] = is_bot
-        click["click-id"] = len([code["code"] in informations["actions"] for code in informations["actions"] if code["code"] == click["code"]])
-        informations["actions"].insert(0,click)
-        json.dump(informations,open(name,"w+"),indent=4)
-        self.sendTelegram(click,informations["telegram"])
+        print(requests.get(url,json= {"id":-1}).text)
+        click["click-id"] = json.loads(requests.get(url,json= {"id":-1}).text)["length"]
+        telegram = json.loads(requests.post(url,json={"telegram":True}).text)["telegram"]
+        print(requests.post(url,json= click).text)
+        self.sendTelegram(click,telegram)
 
     def getAction(self,shortner:str,click_id = -1):
-        name = f"{self.folderPath}{shortner}.json"
-        informations:dict = json.load(open(name,"r"))
+        url = f"{self.url}/shortner"
+        data = {"id":click_id}
+        informations:dict = json.load(open(url,"r"))
         clicks:list = informations["actions"]
         if click_id != -1: return json.dumps(clicks[len(clicks) - click_id -1])
         else: return json.dumps(clicks[0])
 
     def getLink(self,shortner):
-        name = f"{self.folderPath}{shortner}.json"
-        informations:dict = json.load(open(name,"r"))
-        return informations["links"]
+        url = f"{self.url}/{shortner}"
+        informations:dict = json.loads(requests.get(url,headers=self.headers).text)
+        return informations
     
     def sendTelegram(self,data:dict,telegram):
         if telegram != "-1": communicate(telegram,'\n'.join([f'{key} : {value}' for key, value in data.items()]))

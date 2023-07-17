@@ -1,25 +1,24 @@
-from .database import Connecter
 from .link import Link
 from antibot.apis import AntibotApis 
+from .generater import generator
 
-class Core(Connecter,Link):
+class Core(Link):
     """
         Core connecter between all files of database.
         inherit: func.database.Connecter    /   func.link.Link
     """
-    def __init__(self,path):
-        super().__init__(path)
+    def __init__(self):
         Link.__init__(self)
         self.verifier : AntibotApis = AntibotApis()
 
     def newShortLink(self,url:str,identificator:str,telegram):
-        new_link = self.addUser("default",identificator)
-        if not new_link is None : self.initializeLink(identificator,telegram)
+        new_link = None
+        self.initializeLink(identificator,telegram)
         self.pushLink(url,identificator)
 
     def redirectLink(self,identificator):
         try: return self.notFlagged(self.getLink(identificator))
-        except: return "/error"
+        except Exception as e: print(e);return "/error"
     
     def notFlagged(self,links) -> str:
         not_flagged:list = [link for link in links if self.verifier.googleSafeBrowsing(link) == True]
@@ -27,6 +26,6 @@ class Core(Connecter,Link):
         else : return "/error"
 
     def generate(self, url,shortner,telegram =-1):
-        if shortner is None : shortner = super().generate(url)
+        if shortner is None : shortner = generator()
         self.newShortLink(url=url, identificator=shortner,telegram=telegram)
-        return shortner
+        return shortner 
