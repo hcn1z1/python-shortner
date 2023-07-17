@@ -1,6 +1,7 @@
 requests
 flask
 gevent
+gunicorn
 waitress
 python-dotenv
 pyTelegramBotAPI
