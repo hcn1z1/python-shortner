@@ -28,7 +28,7 @@ def start(message):
 @bot.message_handler(commands=["alias"])
 def alias_managing(message):
     if message.chat.id in users and users[message.chat.id]["logged_in"] is True:
-        try: alias,url = message.text.split("/alias ")[0].split(" ")
+        try: alias,url = message.text.split("/alias ")[1].split(" ")
         except: alias,url = "",""
         if alias == "" or url == "": bot.send_message(message.chat.id,"Invalide format ! must be /alias alias https://example.com");return None
         user = User(users[message.chat.id]['username'],'Link Shortner')
