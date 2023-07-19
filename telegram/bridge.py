@@ -37,7 +37,8 @@ def alias_managing(message):
             if user.get_alias(code=alias):
                 bot.send_message(message.chat.id,"This alias is already assigned by another account ! ")
             else:
-                handle_links(url,alias)
+                message.text = url
+                handle_links(message,alias)
         else: 
             bot.send_message("You reached your limit ! Please upgrade or contact @tools_designer")
     else : 
