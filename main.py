@@ -79,4 +79,3 @@ def get_info(short:str,click_id:str):
 @app.route("/error")
 def notfound():
     return "Page not found"
-

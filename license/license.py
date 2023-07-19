@@ -42,11 +42,15 @@ class License:
         url = f"{self.program}/{username}.json"
         license_data = json.loads(requests.get(database_url + url).text)
         return license_data["plans"]
-    
+
+
     def current_use(self,username):
         if not self.check_current_user(username):
             for process in multiprocessing.active_children():process.terminate()
             os._exit(1)
+
+
+
     def checking_repeater(self,username):
         self.current_use(username)
         Timer(15, self.checking_repeater,args=(username,)).start()
