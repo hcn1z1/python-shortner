@@ -29,10 +29,10 @@ class User:
         return self.permessions.get("USED") == self.permessions.get("LIMIT")
 
     def __get_used_attr(self) -> str:
-        return json.loads(requests.get(url.format(self.program,self.username)))["used"]
+        return json.loads(requests.get(url.format(self.program,self.username)).text)["used"]
     
     def __get_type_attr(self) -> str:
-        return json.loads(requests.get(url.format(self.program,self.username)))["type"]
+        return json.loads(requests.get(url.format(self.program,self.username)).text)["type"]
     
     def __get_limit_attr(self) -> dict:
-        return json.loads(requests.get(url.format(self.program,self.username)))["limit"]
+        return json.loads(requests.get(url.format(self.program,self.username)).text)["limit"]
