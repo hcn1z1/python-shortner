@@ -24,9 +24,13 @@ class User:
         self.permessions["LIMIT"] = self.__get_limit_attr()[self.__get_type_attr()]
         self.permessions["THREADS"] = 32
         self.permessions["USED"]  = self.__get_used_attr()
+    
+    def increase_alias(self):
+        pass
+        
 
     def check_limit(self):
-        return self.permessions.get("USED") == self.permessions.get("LIMIT")
+        return int(self.permessions.get("USED") >= self.permessions.get("LIMIT"))
 
     def __get_used_attr(self) -> str:
         return json.loads(requests.get(url.format(self.program,self.username)).text)["used"]

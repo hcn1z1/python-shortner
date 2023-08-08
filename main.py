@@ -1,6 +1,7 @@
 from flask import Flask,render_template,request,redirect
 from func.core import Core
 from func.database import Connecter
+from func.customthread import ThreadReaper
 from antibot.bot import BannedStand
 from func.generater import valideUrl
 from telegram.bridge import bot
@@ -14,8 +15,8 @@ db = Core()
 database = Connecter("database/database.db")
 antibot = BannedStand()
 antibot.setConnection(database)
-
-try: threading.Thread(target = bot.polling).start()
+thread = ThreadReaper(target = bot.polling)
+try: thread.start()
 except: pass
 
 

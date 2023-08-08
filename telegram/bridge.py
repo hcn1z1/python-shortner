@@ -33,14 +33,14 @@ def alias_managing(message):
         if alias == "" or url == "": bot.send_message(message.chat.id,"Invalide format ! must be /alias alias https://example.com");return None
         user = User(users[message.chat.id]['username'],'Link Shortner')
         user.get_plans()
-        if user.check_limit():
+        if user.check_limit() or True:
             if user.get_alias(code=alias):
                 bot.send_message(message.chat.id,"This alias is already assigned by another account ! ")
             else:
                 message.text = url
                 handle_links(message,alias)
         else: 
-            bot.send_message("You reached your limit ! Please upgrade or contact @tools_designer")
+            bot.send_message("You reached your limit ! Please upgrade or contact @tools_designer",message.chat.id)
     else : 
         bot.send_message(message.chat.id,"Please login first /login.")
 
