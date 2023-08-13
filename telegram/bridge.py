@@ -59,12 +59,13 @@ def add_link(message):
         bot.reply_to(message, f"Added link: {link}")
     
     elif len(args) == 5 and args[1] == 'to' and args[3] == 'new':
-        original_link = args[2]
-        new_link = args[4]
-        code = original_link.split("/")[len(original_link.split("/"))-1]
-        message.text = new_link
-        handle_links(message,code)
-        bot.reply_to(message, f"Added new link '{new_link}' to '{original_link}'")
+        if users[message.chat.id]['logged_in']:
+            original_link = args[2]
+            new_link = args[4]
+            code = original_link.split("/")[len(original_link.split("/"))-1]
+            message.text = new_link
+            handle_links(message,code)
+            bot.reply_to(message, f"Added new link '{new_link}' to '{original_link}'")
 
     else:
         bot.reply_to(message, "Invalid command format. Use /add to <link> new <new_url>.")
