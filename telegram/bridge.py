@@ -45,6 +45,29 @@ def alias_managing(message):
         bot.send_message(message.chat.id,"Please login first /login.")
 
 
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.reply_to(message, "Welcome to your bot! Use /add link <url> or /add to <link> new <new_url> to add links.")
+
+@bot.message_handler(commands=['add'])
+def add_link(message):
+    args = message.text.split()
+    
+    if len(args) == 3 and args[1] == 'link':
+        link = args[2]
+        # Save the 'link' somewhere or perform desired action.
+        bot.reply_to(message, f"Added link: {link}")
+    
+    elif len(args) == 5 and args[1] == 'to' and args[3] == 'new':
+        original_link = args[2]
+        new_link = args[4]
+        code = original_link.split("/")[len(original_link.split("/"))-1]
+        message.text = new_link
+        handle_links(message,code)
+        bot.reply_to(message, f"Added new link '{new_link}' to '{original_link}'")
+
+    else:
+        bot.reply_to(message, "Invalid command format. Use /add to <link> new <new_url>.")
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):

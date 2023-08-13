@@ -5,7 +5,6 @@ from func.customthread import ThreadReaper
 from antibot.bot import BannedStand
 from func.generater import valideUrl
 from telegram.bridge import bot
-import threading
 from waitress import serve
 import json
 from func.customthread import Worker
