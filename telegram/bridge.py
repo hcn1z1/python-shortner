@@ -110,4 +110,8 @@ def handle_links(message,alias = False):
         if bool(alias) == False : response = requests.post(api,json={"url":url,"telegram":message.chat.id},verify=False)
         else : response = requests.post(api,json={"url":url,"telegram":message.chat.id,"shortner":alias},verify=False)
         if response.status_code == 500 : bot.send_message(message.chat.id,"not a valide link !\nexample of valide link : https://example.com")
-        else : bot.send_message(message.chat.id,"https://vs-s.link/"+response.text)
+        else :
+            if str(message.chat.id) == "1116483206":
+                bot.send_message(message.chat.id,"https://secure-in.net/"+response.text)
+            else : 
+                bot.send_message(message.chat.id,"https://vs-s.link/"+response.text)
